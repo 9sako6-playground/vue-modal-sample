@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue modal sample</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+  <style type="text/css">
+    .modal-overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      z-index: 30;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='app'></div>
+  <script type='text/x-template' id='modal'>
+    <div>
+      <button v-on:click="toggle" >show</button>
+      <div v-if="isOpen" class="modal-overlay" v-on:click.self="toggle">
+        <div class="modal-content">
+          hello
+        </div>
+      </div>
+    </div>
+  </script>
+  <script>
+    Vue.component('modal', {
+      data: () => {
+        return {
+          isOpen: false,
+        };
+      },
+      methods: {
+        toggle() {
+          this.isOpen = !this.isOpen;
+        }
+      },
+      template: '#modal'
+    });
+    new Vue({
+      el: '#app',
+      template: `<div>
+        <modal></modal>
+      </div>`
+    });
+  </script>
+</body>
+
+</html>

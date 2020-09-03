@@ -28,18 +28,8 @@
 
 <body>
   <div id='app'></div>
-  <script type='text/x-template' id='modal'>
-    <div>
-      <button v-on:click="toggle" >show</button>
-      <div v-if="isOpen" class="modal-overlay" v-on:click.self="toggle">
-        <div class="modal-content">
-          hello
-        </div>
-      </div>
-    </div>
-  </script>
   <script>
-    Vue.component('modal', {
+    const modal = {
       data: () => {
         return {
           isOpen: false,
@@ -50,12 +40,27 @@
           this.isOpen = !this.isOpen;
         }
       },
-      template: '#modal'
-    });
+      template: `
+        <div>
+          <button v-on:click="toggle" >show</button>
+          <div v-if="isOpen" class="modal-overlay" v-on:click.self="toggle">
+            <div class="modal-content">
+              <slot />
+            </div>
+          </div>
+        </div>`,
+    };
+
     new Vue({
       el: '#app',
+      components: {
+        modal
+      },
       template: `<div>
-        <modal></modal>
+        <modal ref="modal">
+          hello world
+          <button @click="$refs.modal.toggle()">close</button>
+        </modal>
       </div>`
     });
   </script>
